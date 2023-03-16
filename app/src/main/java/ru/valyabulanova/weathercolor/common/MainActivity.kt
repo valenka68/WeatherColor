@@ -1,14 +1,11 @@
-package ru.valyabulanova.weathercolor
+package ru.valyabulanova.weathercolor.common
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
 import com.example.weathercolor.R
+import ru.valyabulanova.weathercolor.data.WeatherData
+import ru.valyabulanova.weathercolor.weatherItem
 
 class MainActivity : ComponentActivity() {
 
