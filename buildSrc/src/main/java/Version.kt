@@ -69,4 +69,11 @@ object Version {
     val activityCompose = "1.3.1"
     val materialCompose = "1.2.0"
     //endregion
+
+    //region Dagger - Hilt
+    val hilt = "2.40.5"
+    val hiltNavigation = "1.0.0"
+    val hiltViewmodel = "1.0.0-alpha03"
+    //endregion
+
 }

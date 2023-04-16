@@ -1,4 +1,4 @@
-package ru.valyabulanova.weathercolor
+package ru.valyabulanova.weathercolor.data
 
 import android.media.Image
 
