@@ -12,7 +12,15 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            weatherItem(WeatherData("+23", R.drawable.sun, "1 марта"))
+            weatherItem(
+                listOf(
+                    WeatherData("+23", R.drawable.rain, "1 марта"),
+                    WeatherData("+25", R.drawable.sun, "2 марта"),
+                    WeatherData("+26", R.drawable.cloud, "3 марта"),
+                    WeatherData("+27", R.drawable.sun, "4 марта"),
+                    WeatherData("+28", R.drawable.rain, "5 марта")
+                )
+            )
         }
     }
 
