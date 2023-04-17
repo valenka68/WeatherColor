@@ -88,10 +88,8 @@ object AppDepend {
 
     //region Dagger - Hilt
     val hilt = "com.google.dagger:hilt-android:${Version.hilt}"
-    val hiltViewmodel = "androidx.hilt:hilt-lifecycle-viewmodel:${Version.hiltViewmodel}"
     val hiltNavigation =  "androidx.hilt:hilt-navigation-compose:${Version.hiltNavigation}"
     val hiltKaptCompiler = "com.google.dagger:hilt-android-compiler:${Version.hilt}"
-    val hiltKaptCompiler2 = "androidx.hilt:hilt-compiler:${Version.hiltNavigation}"
     //endregion
 
 
@@ -127,7 +125,6 @@ object AppDepend {
         composeTooling,
         materialCompose,
         hilt,
-    hiltViewmodel,
     hiltNavigation
     )
     //endregion
@@ -135,8 +132,7 @@ object AppDepend {
     //region kapt list
     val kapt = listOf(
         daggerKapt,
-        hiltKaptCompiler,
-        hiltKaptCompiler2
+        hiltKaptCompiler
     )
     //endregion
 

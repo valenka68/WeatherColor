@@ -1,4 +1,3 @@
 package ru.valyabulanova.weathercolor.weather
 
-class WeatherScreen {
-}
+class WeatherScreen

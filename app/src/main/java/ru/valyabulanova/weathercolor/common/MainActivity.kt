@@ -3,25 +3,37 @@ package ru.valyabulanova.weathercolor.common
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.weathercolor.R
+import dagger.hilt.android.AndroidEntryPoint
 import ru.valyabulanova.weathercolor.data.WeatherData
-import ru.valyabulanova.weathercolor.weatherItem
+import ru.valyabulanova.weathercolor.weather.HoursModel
+import ru.valyabulanova.weathercolor.weather.WeatherModel
+import ru.valyabulanova.weathercolor.weather.WeatherViewModel
+import ru.valyabulanova.weathercolor.weather.weatherItem
+import java.text.SimpleDateFormat
 
+
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    private val viewModel: WeatherViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            weatherItem(
-                listOf(
-                    WeatherData("+23", R.drawable.rain, "1 марта"),
-                    WeatherData("+25", R.drawable.sun, "2 марта"),
-                    WeatherData("+26", R.drawable.cloud, "3 марта"),
-                    WeatherData("+27", R.drawable.sun, "4 марта"),
-                    WeatherData("+28", R.drawable.rain, "5 марта")
-                )
-            )
-        }
+
+            val cityName = "Tambov"
+            viewModel.getWeather(cityName)
+            viewModel.liveDayList.observe(lifecycleScope) { weather ->
+                if (weather.isNotEmpty()) {
+                    setContent {
+                        weatherItem(
+                            weather
+                        )
+                    }
+                }
+            }
+
     }
 
 
