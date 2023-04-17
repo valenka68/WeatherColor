@@ -1,32 +1,25 @@
-package ru.valyabulanova.weathercolor
+package ru.valyabulanova.weathercolor.weather
 
 import androidx.compose.foundation.*
-import androidx.compose.foundation.gestures.ScrollableState
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.weathercolor.R
 import ru.valyabulanova.weathercolor.data.WeatherData
 import ru.valyabulanova.weathercolor.ui.theme.*
 
 @Composable
-fun weatherItem(weatherData: List<WeatherData>) {
+fun weatherItem(weatherData: List<WeatherModel>) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -73,14 +66,14 @@ fun weatherItem(weatherData: List<WeatherData>) {
             ) {
                 Text(
                     modifier = Modifier.padding(top = 10.dp, bottom = 20.dp),
-                    text = weatherData[0].date,
+                    text = weatherData[0].getDay(),
                     fontSize = 23.sp,
                     fontFamily = FontFamily.Serif,
                     fontWeight = FontWeight.Light,
                     color = TextColor
                 )
                 Image(
-                    painter = painterResource(id = weatherData[0].image),
+                    painter = painterResource(id = weatherData[0].getImage()),
                     contentDescription = "image",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -88,14 +81,14 @@ fun weatherItem(weatherData: List<WeatherData>) {
                 )
                 Text(
                     modifier = Modifier.padding(top = 10.dp),
-                    text = weatherData[0].temp,
+                    text = weatherData[0].getCurrentTemp(),
                     fontSize = 45.sp,
                     fontFamily = FontFamily.Serif,
                     fontWeight = FontWeight.Bold,
                     color = TextColor
                 )
                 Text(
-                    text = "Облачно",
+                    text = weatherData[0].getTempLike(),
                     fontSize = 16.sp,
                     fontFamily = FontFamily.Serif,
                     fontWeight = FontWeight.Light,
@@ -108,13 +101,70 @@ fun weatherItem(weatherData: List<WeatherData>) {
             modifier = Modifier.padding(10.dp)
                 .horizontalScroll(rememberScrollState())
         ) {
-            setUpCards(weatherData)// end of Card
+            setUpHours(weatherData[0].hours)
+        // end of Card
+        } // end of Raw
+        Row(
+            modifier = Modifier.padding(10.dp)
+                .horizontalScroll(rememberScrollState())
+        ) {
+            setUpCards(weatherData)
+            // end of Card
         } // end of Raw
     } // end of main column
 }
 
 @Composable
-private fun setUpCards(weatherData: List<WeatherData>) {
+private fun setUpHours(hours: List<HoursModel>) {
+    for (index in hours.indices) {
+        Card(
+            modifier = Modifier.padding(end = 5.dp),
+            shape = RoundedCornerShape(5.dp),
+            elevation = 5.dp
+        ) {
+            Column(
+                modifier = Modifier
+                    .background(
+                        brush = Brush.verticalGradient(
+                            listOf(
+                                BoxColor1,
+                                BoxColor2,
+                                BoxColor3
+                            )
+                        )
+                    )
+                    .padding(20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = hours[index].getHour(),
+                    fontSize = 13.sp,
+                    fontFamily = FontFamily.Serif,
+                    fontWeight = FontWeight.Light,
+                    color = TextColor
+                )
+                Image(
+                    painter = painterResource(id = hours[index].getImage()),
+                    contentDescription = "image",
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier
+                        .size(50.dp)
+                )
+                Text(
+                    text = hours[index].getTemp(),
+                    fontSize = 20.sp,
+                    fontFamily = FontFamily.Serif,
+                    fontWeight = FontWeight.Bold,
+                    color = TextColor
+                )
+            } // end of Column
+        }
+    }
+
+}
+
+@Composable
+private fun setUpCards(weatherData: List<WeatherModel>) {
     for (index in weatherData.indices) {
         Card(
             modifier = Modifier.padding(end = 5.dp),
@@ -136,28 +186,28 @@ private fun setUpCards(weatherData: List<WeatherData>) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = weatherData[index].date,
+                    text = weatherData[index].getDay(),
                     fontSize = 13.sp,
                     fontFamily = FontFamily.Serif,
                     fontWeight = FontWeight.Light,
                     color = TextColor
                 )
                 Image(
-                    painter = painterResource(id = weatherData[index].image),
+                    painter = painterResource(id = weatherData[index].getImage()),
                     contentDescription = "image",
                     contentScale = ContentScale.Fit,
                     modifier = Modifier
                         .size(50.dp)
                 )
                 Text(
-                    text = weatherData[index].temp,
+                    text = weatherData[index].getCurrentTemp(),
                     fontSize = 20.sp,
                     fontFamily = FontFamily.Serif,
                     fontWeight = FontWeight.Bold,
                     color = TextColor
                 )
                 Text(
-                    text = "Облачно",
+                    text = weatherData[index].getTempLike(),
                     fontSize = 11.sp,
                     fontFamily = FontFamily.Serif,
                     fontWeight = FontWeight.Light,

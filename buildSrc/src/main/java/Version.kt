@@ -71,7 +71,7 @@ object Version {
     //endregion
 
     //region Dagger - Hilt
-    val hilt = "2.40.5"
+    val hilt = "2.44"
     val hiltNavigation = "1.0.0"
     val hiltViewmodel = "1.0.0-alpha03"
     //endregion
