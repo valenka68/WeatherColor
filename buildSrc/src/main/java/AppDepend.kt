@@ -86,6 +86,14 @@ object AppDepend {
     val materialCompose = "androidx.compose.material:material:${Version.materialCompose}"
     //endregion
 
+    //region Dagger - Hilt
+    val hilt = "com.google.dagger:hilt-android:${Version.hilt}"
+    val hiltNavigation =  "androidx.hilt:hilt-navigation-compose:${Version.hiltNavigation}"
+    val hiltKaptCompiler = "com.google.dagger:hilt-android-compiler:${Version.hilt}"
+    //endregion
+
+
+
     //region appLibraries list
     val appLibraries = listOf(
         kotlinStdLib,
@@ -115,13 +123,16 @@ object AppDepend {
         activityCompose,
         composeUi,
         composeTooling,
-        materialCompose
+        materialCompose,
+        hilt,
+    hiltNavigation
     )
     //endregion
 
     //region kapt list
     val kapt = listOf(
-        daggerKapt
+        daggerKapt,
+        hiltKaptCompiler
     )
     //endregion
 
