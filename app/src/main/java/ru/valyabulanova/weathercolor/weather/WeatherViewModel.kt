@@ -1,6 +1,9 @@
 package ru.valyabulanova.weathercolor.weather
 
 import android.util.Log
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ru.valyabulanova.weathercolor.usecases.city.GettingWeatherForecastForCityUseCase
@@ -8,6 +11,7 @@ import ru.valyabulanova.weathercolor.usecases.common.data.Hours
 import ru.valyabulanova.weathercolor.usecases.common.data.Weather
 import com.example.weathercolor.R
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,6 +19,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.valyabulanova.weathercolor.common.MutableSingleEventFlow
+import java.net.UnknownHostException
 import java.util.*
 import javax.inject.Inject
 
@@ -22,11 +27,12 @@ import javax.inject.Inject
 class WeatherViewModel @Inject constructor(
     private val getForecastForCity: GettingWeatherForecastForCityUseCase
 ) : ViewModel() {
+
+    var state by mutableStateOf(WeatherState())
+        private set
+
     private val _city = MutableStateFlow("")
     val city: StateFlow<String> get() = _city.asStateFlow()
-
-    private val _cardVisibility = MutableStateFlow(false)
-    val cardVisibility: StateFlow<Boolean> get() = _cardVisibility.asStateFlow()
 
     private val _dayToday = MutableStateFlow("")
     val dayToday: StateFlow<String> get() = _dayToday.asStateFlow()
@@ -43,19 +49,36 @@ class WeatherViewModel @Inject constructor(
     private val _liveDayList = MutableStateFlow<List<WeatherModel>>(emptyList())
     val liveDayList: StateFlow<List<WeatherModel>> get() = _liveDayList.asStateFlow()
 
-    private val _message = MutableSingleEventFlow<Int>()
-    val message = _message.asSharedFlow()
 
-    fun getWeather(city: String) = viewModelScope.launch(Dispatchers.Default) {
-        try {
-            _city.value = city.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
-            val forecastForCity = getForecastForCity(city)
-            val forecastAsModelList = forecastForCity.toWeatherModelList()
-            setupWeather(forecastAsModelList)
-        } catch (error: Throwable) {
-            onError(error)
+        fun getWeather(city: String) = viewModelScope.launch {
+            state = state.copy(
+                isLoading = true,
+                error = null
+            )
+            try {
+                _city.value =
+                    city.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+                val forecastForCity = getForecastForCity(city)
+                val forecastAsModelList = forecastForCity.toWeatherModelList()
+                setupWeather(forecastAsModelList)
+                state = state.copy(
+                    weatherInfo = forecastAsModelList,
+                    isLoading = false,
+                    error = null
+                )
+            } catch (error: CancellationException) {
+                throw error
+                onError()
+            } catch (error: Error) {
+                onError()
+            }  catch (e: UnknownHostException) {
+                onError()
+            } catch (error: Exception) {
+                Log.e("ViewModel",error.message.toString())
+                onError()
+            }
         }
-    }
+
 
     private fun List<Weather>.toWeatherModelList() = map { it.toWeatherModel() }
 
@@ -85,15 +108,16 @@ class WeatherViewModel @Inject constructor(
         _textForCondition.value =
             "Ощущается как ${it[0].getTempLike()}"
         _imageResource.value = it[0].getImage()
-        _cardVisibility.value = true
     }
 
-    private fun onError(exception: Throwable) {
-        Log.e("WeatherViewModel", "Ошибка при получении погоды.", exception)
-        _message.tryEmit(R.string.error)
+    private fun onError() {
+        Log.e("WeatherViewModel", "Ошибка при получении погоды.")
+        state = state.copy(
+            weatherInfo = null,
+            isLoading = false,
+            error = "Ошибка при получении погоды."
+        )
     }
-
-
 
 
 }

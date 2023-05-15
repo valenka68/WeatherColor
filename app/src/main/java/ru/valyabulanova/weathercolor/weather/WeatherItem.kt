@@ -15,103 +15,105 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.valyabulanova.weathercolor.data.WeatherData
 import ru.valyabulanova.weathercolor.ui.theme.*
 
 @Composable
-fun weatherItem(weatherData: List<WeatherModel>) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
-                Brush.verticalGradient(
-                    colors = listOf(
-                        Background,
-                        LightBlue,
-                        MoreLightBlue
-                    ),
-                ),
-            )
-            .padding(top = 20.dp)
-    ) {
-        Text(
-            text = "Тамбов",
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            fontSize = 26.sp,
-            fontFamily = FontFamily.Serif,
-            fontWeight = FontWeight.Light,
-            color = TextColor2
-        )
-        Card(
+fun weatherItem(weatherData: List<WeatherModel>, state: WeatherState) {
+    if (state.weatherInfo?.isNotEmpty() == true) {
+        Column(
             modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .size(300.dp)
-                .padding(20.dp),
-            shape = RoundedCornerShape(15.dp),
-            elevation = 5.dp
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        brush = Brush.verticalGradient(
-                            listOf(
-                                CardColor2,
-                                CardColor3,
-                                CardColor1
-                            )
-                        )
+                .fillMaxSize()
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(
+                            Background,
+                            LightBlue,
+                            MoreLightBlue
+                        ),
                     ),
-                horizontalAlignment = Alignment.CenterHorizontally
+                )
+                .padding(top = 20.dp)
+        ) {
+            Text(
+                text = "Тамбов",
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                fontSize = 26.sp,
+                fontFamily = FontFamily.Serif,
+                fontWeight = FontWeight.Light,
+                color = TextColor2
+            )
+            Card(
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .size(300.dp)
+                    .padding(20.dp),
+                shape = RoundedCornerShape(15.dp),
+                elevation = 5.dp
             ) {
-                Text(
-                    modifier = Modifier.padding(top = 10.dp, bottom = 20.dp),
-                    text = weatherData[0].getDay(),
-                    fontSize = 23.sp,
-                    fontFamily = FontFamily.Serif,
-                    fontWeight = FontWeight.Light,
-                    color = TextColor
-                )
-                Image(
-                    painter = painterResource(id = weatherData[0].getImage()),
-                    contentDescription = "image",
-                    contentScale = ContentScale.Crop,
+                Column(
                     modifier = Modifier
-                        .size(100.dp)
-                )
-                Text(
-                    modifier = Modifier.padding(top = 10.dp),
-                    text = weatherData[0].getCurrentTemp(),
-                    fontSize = 45.sp,
-                    fontFamily = FontFamily.Serif,
-                    fontWeight = FontWeight.Bold,
-                    color = TextColor
-                )
-                Text(
-                    text = weatherData[0].getTempLike(),
-                    fontSize = 16.sp,
-                    fontFamily = FontFamily.Serif,
-                    fontWeight = FontWeight.Light,
-                    color = TextColor
-                )
+                        .fillMaxSize()
+                        .background(
+                            brush = Brush.verticalGradient(
+                                listOf(
+                                    CardColor2,
+                                    CardColor3,
+                                    CardColor1
+                                )
+                            )
+                        ),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        modifier = Modifier.padding(top = 10.dp, bottom = 20.dp),
+                        text = weatherData[0].getDay(),
+                        fontSize = 23.sp,
+                        fontFamily = FontFamily.Serif,
+                        fontWeight = FontWeight.Light,
+                        color = TextColor
+                    )
+                    Image(
+                        painter = painterResource(id = weatherData[0].getImage()),
+                        contentDescription = "image",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .size(100.dp)
+                    )
+                    Text(
+                        modifier = Modifier.padding(top = 10.dp),
+                        text = weatherData[0].getCurrentTemp(),
+                        fontSize = 45.sp,
+                        fontFamily = FontFamily.Serif,
+                        fontWeight = FontWeight.Bold,
+                        color = TextColor
+                    )
+                    Text(
+                        text = weatherData[0].getTempLike(),
+                        fontSize = 16.sp,
+                        fontFamily = FontFamily.Serif,
+                        fontWeight = FontWeight.Light,
+                        color = TextColor
+                    )
 
-            } // end of Column
-        } // end of Card
-        Row(
-            modifier = Modifier.padding(10.dp)
-                .horizontalScroll(rememberScrollState())
-        ) {
-            setUpHours(weatherData[0].hours)
-        // end of Card
-        } // end of Raw
-        Row(
-            modifier = Modifier.padding(10.dp)
-                .horizontalScroll(rememberScrollState())
-        ) {
-            setUpCards(weatherData)
-            // end of Card
-        } // end of Raw
-    } // end of main column
+                } // end of Column
+            } // end of Card
+            Row(
+                modifier = Modifier.padding(10.dp)
+                    .horizontalScroll(rememberScrollState())
+            ) {
+                setUpHours(weatherData[0].hours)
+                // end of Card
+            } // end of Raw
+            Row(
+                modifier = Modifier.padding(10.dp)
+                    .horizontalScroll(rememberScrollState())
+            ) {
+                setUpCards(weatherData)
+                // end of Card
+            } // end of Raw
+        } // end of main column
+    }
+
 }
 
 @Composable
