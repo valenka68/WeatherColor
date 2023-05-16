@@ -35,6 +35,12 @@ data class WeatherModel(
         return tLike
     }
 
+    @JvmName("getMaxMin1")
+    fun getMaxMin(): String {
+        val t = maxTemp.toFloat().toInt().toString() + "°" + "/" + minTemp.toFloat().toInt().toString() + "°"
+        return t
+    }
+
     @JvmName("getCurrentTemp1")
     fun getCurrentTemp(): String {
         val curTemp = currentTemp.toFloat().toInt().toString() + "°"

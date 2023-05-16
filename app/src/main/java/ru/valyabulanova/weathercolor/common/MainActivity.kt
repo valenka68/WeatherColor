@@ -30,7 +30,6 @@ class MainActivity : ComponentActivity() {
         viewModel.getWeather(cityName)
         viewModel.liveDayList.observe(lifecycleScope) { weather ->
             setContent {
-
                 WeatherAppTheme {
                     Box(
                         modifier = Modifier.fillMaxSize()
