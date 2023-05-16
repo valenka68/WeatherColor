@@ -9,16 +9,12 @@ import androidx.lifecycle.viewModelScope
 import ru.valyabulanova.weathercolor.usecases.city.GettingWeatherForecastForCityUseCase
 import ru.valyabulanova.weathercolor.usecases.common.data.Hours
 import ru.valyabulanova.weathercolor.usecases.common.data.Weather
-import com.example.weathercolor.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import ru.valyabulanova.weathercolor.common.MutableSingleEventFlow
 import java.net.UnknownHostException
 import java.util.*
 import javax.inject.Inject

@@ -202,17 +202,10 @@ private fun setUpCards(weatherData: List<WeatherModel>) {
                         .size(50.dp)
                 )
                 Text(
-                    text = weatherData[index].getCurrentTemp(),
+                    text = weatherData[index].getMaxMin(),
                     fontSize = 20.sp,
                     fontFamily = FontFamily.Serif,
                     fontWeight = FontWeight.Bold,
-                    color = TextColor
-                )
-                Text(
-                    text = weatherData[index].getTempLike(),
-                    fontSize = 11.sp,
-                    fontFamily = FontFamily.Serif,
-                    fontWeight = FontWeight.Light,
                     color = TextColor
                 )
 
