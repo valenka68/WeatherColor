@@ -106,6 +106,7 @@ fun weatherItem(weatherData: List<WeatherModel>, state: WeatherState) {
             } // end of Raw
             Row(
                 modifier = Modifier.padding(10.dp)
+                    .align(Alignment.CenterHorizontally)
                     .horizontalScroll(rememberScrollState())
             ) {
                 setUpCards(weatherData)
